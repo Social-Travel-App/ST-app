@@ -1,12 +1,15 @@
 import type { AppProps } from 'next/app'
-import type { EmotionCache } from '@emotion/react'
-import { CacheProvider, ThemeProvider } from '@emotion/react'
+import { EmotionCache, ThemeProvider } from '@emotion/react'
+import {
+  CacheProvider,
+  ThemeProvider as MuiThemeProvider,
+} from '@emotion/react'
 import createEmotionCache from '../utils/helper'
-import React from 'react'
 import muiTheme from '../styles/mui-theme'
+import React from 'react'
 import Head from 'next/head'
 import { CssBaseline } from '@mui/material'
-
+import emotionTheme from '@/styles/emotion-theme'
 const clientSideEmotionCache = createEmotionCache()
 
 interface MyAppProps extends AppProps {
@@ -29,9 +32,11 @@ const MyApp: React.FC<MyAppProps> = (props) => {
       </Head>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <CssBaseline />
-      <ThemeProvider theme={muiTheme}>
-        <Component {...pageProps} />;
-      </ThemeProvider>
+      <MuiThemeProvider theme={muiTheme}>
+        <ThemeProvider theme={emotionTheme}>
+          <Component {...pageProps} />;
+        </ThemeProvider>
+      </MuiThemeProvider>
     </CacheProvider>
   )
 }
