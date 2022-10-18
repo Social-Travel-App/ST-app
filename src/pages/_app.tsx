@@ -5,8 +5,9 @@ import createEmotionCache from '../utils/helper'
 import React from 'react'
 import muiTheme from '../styles/mui-theme'
 import Head from 'next/head'
+import '../styles/globals.scss'
 import { CssBaseline } from '@mui/material'
-
+import { StyledEngineProvider } from '@mui/material/styles'
 const clientSideEmotionCache = createEmotionCache()
 
 interface MyAppProps extends AppProps {
@@ -23,16 +24,18 @@ const MyApp: React.FC<MyAppProps> = (props) => {
   }, [])
 
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-      <CssBaseline />
-      <ThemeProvider theme={muiTheme}>
-        <Component {...pageProps} />;
-      </ThemeProvider>
-    </CacheProvider>
+    <StyledEngineProvider injectFirst>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <ThemeProvider theme={muiTheme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </CacheProvider>
+    </StyledEngineProvider>
   )
 }
 
